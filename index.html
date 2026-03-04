@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For My Beautiful Haya ❤️</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Great+Vibes&display=swap" rel="stylesheet">
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
+
+body{
+    height:100vh;
+    background: linear-gradient(to bottom right,#fff5f8,#ffe9f1);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    overflow:hidden;
+}
+
+.container{
+    width:95%;
+    max-width:420px;
+    background:white;
+    padding:25px;
+    border-radius:25px;
+    box-shadow:0 15px 40px rgba(255,105,135,0.25);
+    text-align:center;
+    position:relative;
+    animation:fadeIn 1.5s ease-in-out;
+}
+
+h1{
+    font-family:'Great Vibes',cursive;
+    font-size:36px;
+    color:#ff4d79;
+    margin-bottom:10px;
+}
+
+.question{
+    font-size:18px;
+    margin:20px 0;
+    color:#444;
+    min-height:60px;
+}
+
+button{
+    width:100%;
+    padding:12px;
+    margin:6px 0;
+    border:none;
+    border-radius:30px;
+    background:#ff4d79;
+    color:white;
+    font-size:15px;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+button:hover{
+    background:#ff2e63;
+    transform:scale(1.05);
+}
+
+.compliment{
+    margin-top:15px;
+    font-size:15px;
+    color:#ff4d79;
+    font-weight:500;
+    min-height:50px;
+    animation:fadeIn 0.8s ease-in-out;
+}
+
+.progress{
+    height:6px;
+    width:100%;
+    background:#ffe3ec;
+    border-radius:10px;
+    margin-bottom:15px;
+    overflow:hidden;
+}
+
+.progress-bar{
+    height:100%;
+    width:0%;
+    background:#ff4d79;
+    transition:0.4s;
+}
+
+@keyframes fadeIn{
+    from{opacity:0; transform:translateY(15px);}
+    to{opacity:1; transform:translateY(0);}
+}
+</style>
+</head>
+
+<body>
+
+<audio id="bgMusic" loop>
+    <source src="romantic.mp3" type="audio/mpeg">
+</audio>
+
+<div class="container">
+    <h1>My Beautiful Haya 💖</h1>
+    <div class="progress"><div class="progress-bar" id="progressBar"></div></div>
+    <div class="question" id="question"></div>
+    <div id="answers"></div>
+    <div class="compliment" id="compliment"></div>
+</div>
+
+<script>
+const music = document.getElementById("bgMusic");
+document.body.addEventListener("click", () => {
+    music.play();
+},{ once:true });
+
+const questions = [
+{
+q:"What do you love most about us?",
+a:["Our memories","Your love","Everything about us"]
+},
+{
+q:"Which moment made you fall for me more?",
+a:["Our first talk","Our laughter","Your surprise gestures"]
+},
+{
+q:"If I hug you right now, what would you do?",
+a:["Never let go","Smile forever","Kiss you softly"]
+},
+{
+q:"Which of my habits makes you blush?",
+a:["When I tease you","When I stare at you","When I whisper to you"]
+},
+{
+q:"What makes our love special?",
+a:["Trust","Romance","Pure connection"]
+},
+{
+q:"If we travel anywhere, where first?",
+a:["Beach","Mountains","Anywhere with you"]
+},
+{
+q:"What word describes us best?",
+a:["Forever","Soulmates","Magic"]
+},
+{
+q:"When I call you beautiful, you feel?",
+a:["Shy","Loved","On top of the world"]
+},
+{
+q:"What melts your heart instantly?",
+a:["My smile","My voice","My care"]
+},
+{
+q:"Will you grow old with me?",
+a:["Yes forever","Always","Till eternity ❤️"]
+}
+];
+
+const compliments = [
+"Your hair flows like silk and makes my world softer.",
+"Your eyes shine brighter than the stars in the sky.",
+"Your lips are sweeter than every love song ever written.",
+"Your smile is my daily sunshine.",
+"Your glowing skin makes angels jealous.",
+"Your voice is the calm to my chaos.",
+"Your beauty is effortless and breathtaking.",
+"Your presence makes my heart race.",
+"Your elegance is unmatched.",
+"You are the most beautiful woman in every possible way."
+];
+
+let current=0;
+
+function loadQuestion(){
+    document.getElementById("compliment").innerText="";
+    document.getElementById("question").innerText=questions[current].q;
+    const answersDiv=document.getElementById("answers");
+    answersDiv.innerHTML="";
+    
+    questions[current].a.forEach(ans=>{
+        const btn=document.createElement("button");
+        btn.innerText=ans;
+        btn.onclick=()=>{
+            document.getElementById("compliment").innerText=compliments[current];
+            updateProgress();
+            setTimeout(()=>{
+                current++;
+                if(current<questions.length){
+                    loadQuestion();
+                }else{
+                    document.getElementById("question").innerText="You are my forever, Haya 💍❤️";
+                    answersDiv.innerHTML="";
+                }
+            },2000);
+        };
+        answersDiv.appendChild(btn);
+    });
+}
+
+function updateProgress(){
+    const percent=((current+1)/questions.length)*100;
+    document.getElementById("progressBar").style.width=percent+"%";
+}
+
+loadQuestion();
+</script>
+
+</body>
+</html>
