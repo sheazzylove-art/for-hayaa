@@ -8,94 +8,88 @@
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Great+Vibes&display=swap" rel="stylesheet">
 
 <style>
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:'Poppins',sans-serif;
-}
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
 
 body{
-    height:100vh;
-    background: linear-gradient(to bottom right,#fff5f8,#ffe9f1);
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    overflow:hidden;
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+background: radial-gradient(circle at top,#ffe6f0,#fff0f5,#ffd6e8);
+overflow:hidden;
+}
+
+/* Floating Hearts */
+.heart{
+position:absolute;
+color:#ff4d88;
+animation:float 8s linear infinite;
+font-size:20px;
+opacity:0.6;
+}
+@keyframes float{
+0%{transform:translateY(100vh) scale(0.5);}
+100%{transform:translateY(-10vh) scale(1.2);}
 }
 
 .container{
-    width:95%;
-    max-width:420px;
-    background:white;
-    padding:25px;
-    border-radius:25px;
-    box-shadow:0 15px 40px rgba(255,105,135,0.25);
-    text-align:center;
-    position:relative;
-    animation:fadeIn 1.5s ease-in-out;
+width:95%;
+max-width:420px;
+background:white;
+padding:25px;
+border-radius:25px;
+box-shadow:0 20px 50px rgba(255,0,90,0.2);
+text-align:center;
+position:relative;
+z-index:10;
+animation:fadeIn 1.5s ease-in-out;
 }
 
 h1{
-    font-family:'Great Vibes',cursive;
-    font-size:36px;
-    color:#ff4d79;
-    margin-bottom:10px;
+font-family:'Great Vibes',cursive;
+font-size:38px;
+color:#ff2e63;
+margin-bottom:10px;
 }
 
 .question{
-    font-size:18px;
-    margin:20px 0;
-    color:#444;
-    min-height:60px;
+margin:20px 0;
+font-size:18px;
+min-height:60px;
+color:#444;
 }
 
 button{
-    width:100%;
-    padding:12px;
-    margin:6px 0;
-    border:none;
-    border-radius:30px;
-    background:#ff4d79;
-    color:white;
-    font-size:15px;
-    cursor:pointer;
-    transition:0.3s;
+padding:12px;
+margin:6px;
+border:none;
+border-radius:30px;
+background:#ff4d79;
+color:white;
+cursor:pointer;
+transition:0.3s;
+font-size:14px;
 }
 
 button:hover{
-    background:#ff2e63;
-    transform:scale(1.05);
+transform:scale(1.1);
+background:#ff2e63;
+}
+
+#noBtn{
+position:relative;
 }
 
 .compliment{
-    margin-top:15px;
-    font-size:15px;
-    color:#ff4d79;
-    font-weight:500;
-    min-height:50px;
-    animation:fadeIn 0.8s ease-in-out;
-}
-
-.progress{
-    height:6px;
-    width:100%;
-    background:#ffe3ec;
-    border-radius:10px;
-    margin-bottom:15px;
-    overflow:hidden;
-}
-
-.progress-bar{
-    height:100%;
-    width:0%;
-    background:#ff4d79;
-    transition:0.4s;
+margin-top:15px;
+color:#ff2e63;
+font-weight:500;
+min-height:50px;
 }
 
 @keyframes fadeIn{
-    from{opacity:0; transform:translateY(15px);}
-    to{opacity:1; transform:translateY(0);}
+from{opacity:0;transform:translateY(15px);}
+to{opacity:1;transform:translateY(0);}
 }
 </style>
 </head>
@@ -103,110 +97,105 @@ button:hover{
 <body>
 
 <audio id="bgMusic" loop>
-    <source src="romantic.mp3" type="audio/mpeg">
+<source src="romantic.mp3" type="audio/mpeg">
 </audio>
 
 <div class="container">
-    <h1>My Beautiful Haya 💖</h1>
-    <div class="progress"><div class="progress-bar" id="progressBar"></div></div>
-    <div class="question" id="question"></div>
-    <div id="answers"></div>
-    <div class="compliment" id="compliment"></div>
+<h1>Haya 💖</h1>
+<div class="question" id="question"></div>
+<div id="answers"></div>
+<div class="compliment" id="compliment"></div>
 </div>
 
 <script>
-const music = document.getElementById("bgMusic");
-document.body.addEventListener("click", () => {
-    music.play();
-},{ once:true });
+// Music play on first tap (iPhone friendly)
+document.body.addEventListener("click",()=>{
+document.getElementById("bgMusic").play();
+},{once:true});
 
-const questions = [
-{
-q:"What do you love most about us?",
-a:["Our memories","Your love","Everything about us"]
-},
-{
-q:"Which moment made you fall for me more?",
-a:["Our first talk","Our laughter","Your surprise gestures"]
-},
-{
-q:"If I hug you right now, what would you do?",
-a:["Never let go","Smile forever","Kiss you softly"]
-},
-{
-q:"Which of my habits makes you blush?",
-a:["When I tease you","When I stare at you","When I whisper to you"]
-},
-{
-q:"What makes our love special?",
-a:["Trust","Romance","Pure connection"]
-},
-{
-q:"If we travel anywhere, where first?",
-a:["Beach","Mountains","Anywhere with you"]
-},
-{
-q:"What word describes us best?",
-a:["Forever","Soulmates","Magic"]
-},
-{
-q:"When I call you beautiful, you feel?",
-a:["Shy","Loved","On top of the world"]
-},
-{
-q:"What melts your heart instantly?",
-a:["My smile","My voice","My care"]
-},
-{
-q:"Will you grow old with me?",
-a:["Yes forever","Always","Till eternity ❤️"]
-}
+// Floating hearts generator
+setInterval(()=>{
+let heart=document.createElement("div");
+heart.innerHTML="❤";
+heart.className="heart";
+heart.style.left=Math.random()*100+"vw";
+heart.style.fontSize=(15+Math.random()*20)+"px";
+document.body.appendChild(heart);
+setTimeout(()=>{heart.remove();},8000);
+},500);
+
+// Questions
+const questions=[
+"Which memory of us makes you smile the most?",
+"What makes our love different from others?",
+"If I hug you right now, what would you do?",
+"What melts your heart instantly?",
+"Do you love me? ❤️"
 ];
 
-const compliments = [
-"Your hair flows like silk and makes my world softer.",
-"Your eyes shine brighter than the stars in the sky.",
-"Your lips are sweeter than every love song ever written.",
-"Your smile is my daily sunshine.",
-"Your glowing skin makes angels jealous.",
-"Your voice is the calm to my chaos.",
-"Your beauty is effortless and breathtaking.",
-"Your presence makes my heart race.",
-"Your elegance is unmatched.",
-"You are the most beautiful woman in every possible way."
+const compliments=[
+"Your eyes sparkle brighter than every star in the sky.",
+"Your hair flows like poetry in motion.",
+"Your lips are softer than every love song ever written.",
+"Your smile is my favorite sunrise.",
+"That blush on your face makes you the most beautiful woman alive."
 ];
 
 let current=0;
 
 function loadQuestion(){
-    document.getElementById("compliment").innerText="";
-    document.getElementById("question").innerText=questions[current].q;
-    const answersDiv=document.getElementById("answers");
-    answersDiv.innerHTML="";
-    
-    questions[current].a.forEach(ans=>{
-        const btn=document.createElement("button");
-        btn.innerText=ans;
-        btn.onclick=()=>{
-            document.getElementById("compliment").innerText=compliments[current];
-            updateProgress();
-            setTimeout(()=>{
-                current++;
-                if(current<questions.length){
-                    loadQuestion();
-                }else{
-                    document.getElementById("question").innerText="You are my forever, Haya 💍❤️";
-                    answersDiv.innerHTML="";
-                }
-            },2000);
-        };
-        answersDiv.appendChild(btn);
-    });
+document.getElementById("compliment").innerText="";
+document.getElementById("question").innerText=questions[current];
+const ansDiv=document.getElementById("answers");
+ansDiv.innerHTML="";
+
+if(current===4){
+let yesBtn=document.createElement("button");
+yesBtn.innerText="Yes 💖";
+yesBtn.onclick=()=>{
+document.getElementById("compliment").innerText=compliments[current];
+launchConfetti();
+};
+
+let noBtn=document.createElement("button");
+noBtn.innerText="No 🙈";
+noBtn.id="noBtn";
+
+noBtn.onmouseover=()=>{
+noBtn.style.position="absolute";
+noBtn.style.top=Math.random()*200+"px";
+noBtn.style.left=Math.random()*200+"px";
+};
+
+ansDiv.appendChild(yesBtn);
+ansDiv.appendChild(noBtn);
+}else{
+["Forever","Always","Only you"].forEach(text=>{
+let btn=document.createElement("button");
+btn.innerText=text;
+btn.onclick=()=>{
+document.getElementById("compliment").innerText=compliments[current];
+setTimeout(()=>{
+current++;
+if(current<questions.length) loadQuestion();
+},1500);
+};
+ansDiv.appendChild(btn);
+});
+}
 }
 
-function updateProgress(){
-    const percent=((current+1)/questions.length)*100;
-    document.getElementById("progressBar").style.width=percent+"%";
+function launchConfetti(){
+for(let i=0;i<100;i++){
+let conf=document.createElement("div");
+conf.innerHTML="✨";
+conf.style.position="absolute";
+conf.style.left=Math.random()*100+"vw";
+conf.style.top=Math.random()*100+"vh";
+conf.style.fontSize="20px";
+document.body.appendChild(conf);
+setTimeout(()=>conf.remove(),2000);
+}
 }
 
 loadQuestion();
